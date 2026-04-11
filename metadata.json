@@ -1,0 +1,5 @@
+{
+  "name": "FireOps Commander API",
+  "description": "A serverless, multi-agent triage system for the Jakarta Fire Department using Gemini 2.0 Flash and Firestore.",
+  "requestFramePermissions": []
+}

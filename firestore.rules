@@ -1,0 +1,39 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: hazards
+    // Fields:
+    //   - location: string (required)
+    //   - description: string (required)
+    //
+    // Collection: active_incidents
+    // Fields:
+    //   - station_id: string (required)
+    //   - original_report: string (required)
+    //   - triage_report: map (required)
+    //   - timestamp: timestamp (required)
+    //
+    // ===============================================================
+
+    // Helper Functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Hazards: Publicly readable for this prototype, but should be restricted in production
+    match /hazards/{hazardId} {
+      allow read: if true;
+      allow write: if false; // Only admins should write hazards
+    }
+
+    // Active Incidents: Allow anyone to create for now to support testing
+    match /active_incidents/{incidentId} {
+      allow create: if true;
+      allow read, update, delete: if false;
+    }
+  }
+}
